@@ -1,0 +1,118 @@
+main > * {
+  margin-bottom: var(--fs33);
+}
+.detailCon {
+  display: flex;
+  gap: var(--fs33);
+}
+
+.imgWrap {
+  border-radius: var(--fs16);
+  overflow: hidden;
+  width: calc(55% - var(--fs16));
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+.imgWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.discount {
+  font-size: var(--fs12);
+  position: absolute;
+  top: var(--fs20);
+  left: var(--fs20);
+  background-color: var(--dark-colors-accent-dark);
+  border-radius: var(--fs16);
+  padding: var(--fs8) var(--fs12);
+  color: var(--light-colors-white-light);
+}
+
+.infoWrap {
+  flex: 1;
+  padding: var(--fs16) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs16);
+}
+.title {
+  font-size: var(--fs26);
+}
+.price {
+  font-weight: bold;
+  color: var(--dark-colors-accent-dark);
+}
+.category {
+  font-size: var(--fs12);
+}
+
+.btnWrap {
+  display: flex;
+  gap: var(--fs16);
+}
+.counterArea {
+  background-color: #dcdbdb;
+  border-radius: var(--fs8);
+}
+.counterArea button {
+  border: none;
+  outline: none;
+  padding: var(--fs12) var(--fs20);
+  font-size: var(--fs16);
+  background-color: transparent;
+}
+.counterArea span {
+  display: inline-block;
+  padding: var(--fs12);
+}
+.addBtn {
+  flex: 1;
+  border-radius: var(--fs8);
+  border: 1px solid var(--dark-colors-accent-dark);
+}
+
+/* 탭 */
+.tabCon {
+  display: flex;
+  flex-direction: column;
+  gap: var(--fs20);
+}
+.tabList {
+  display: flex;
+  gap: var(--fs33);
+}
+.tabList > li {
+  position: relative;
+  padding: var(--fs16) var(--fs20);
+  cursor: pointer;
+}
+.tabList > li::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background-color: var(--dark-colors-accent-dark);
+  transition: 0.3s;
+}
+.tabList > li.active::before,
+.tabList > li:hover::before {
+  width: 100%;
+}
+
+/* 관련 카테고리 상품 리스트*/
+.list {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: var(--fs20);
+}
+
+@media (max-width: 600px) {
+  .list {
+    grid-template-columns: repeat(auto-fill, 1fr);
+  }
+}

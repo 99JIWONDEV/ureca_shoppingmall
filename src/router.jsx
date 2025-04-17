@@ -16,7 +16,7 @@ const MainPage = lazy(() => import('./pages/MainPage'))
 const DetailPage = lazy(() => import('./pages/DetailPage'))
 
 import Loading from './components/Loading'
-// import { getProductById } from './api/productsApi'
+import { detailPageLoader } from './loaders/productsLoaders'
 // import DetailPage from './pages/DetailPage'
 
 const router = createBrowserRouter([
@@ -33,14 +33,7 @@ const router = createBrowserRouter([
       {
         path: '/detail/:productId',
         element: <DetailPage />,
-        // loader: async ({ params }) => {
-        //   try {
-        //     const product = await getProductById(params.productId)
-        //     return product
-        //   } catch (error) {
-        //     console.log(error)
-        //   }
-        // },
+        loader: detailPageLoader,
       },
     ],
   },
