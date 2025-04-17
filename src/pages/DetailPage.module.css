@@ -116,3 +116,7 @@ main > * {
     grid-template-columns: repeat(auto-fill, 1fr);
   }
 }
+
+.detailSlider {
+  padding-bottom: var(--fs33);
+}
