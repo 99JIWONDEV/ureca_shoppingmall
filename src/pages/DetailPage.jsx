@@ -1,24 +1,66 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLoaderData } from 'react-router-dom'
 import css from './DetailPage.module.css'
 import { formatCurrency } from '@/utils/features'
-import ProductCard from '@/components/ProductCard'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination } from 'swiper/modules'
+import DetailTabInfo from '@/organism/DetailTabInfo'
+import SimilarProducts from '@/organism/SimilarProducts'
+import Modal from '@/components/Modal'
 
 const DetailPage = () => {
   const { product, relatedProducts } = useLoaderData()
-  const [activeTab, setActiveTab] = useState('description')
+  console.log('DetailPage:product', product)
+  console.log('DetailPage:relatedProducts', relatedProducts)
 
-  const handleTabClick = tab => setActiveTab(tab)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [count, setCount] = useState(1)
 
+  useEffect(() => {
+    // 컴포넌트가 마운트된 직후에는 로딩 상태로 표시
+    setIsLoading(true)
+
+    // 데이터가 로드된 후 로딩 상태 해제
+    if (product && product.id) {
+      // 약간의 지연 효과를 줘서 로딩 화면을 확인할 수 있도록
+      const timer = setTimeout(() => {
+        setIsLoading(false)
+      }, 0)
+
+      return () => clearTimeout(timer)
+    }
+  }, [product])
+
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    )
+  }
+
+  const decrease = () => {
+    setCount(prev => (prev > 1 ? prev - 1 : 1))
+  }
+  const increase = () => {
+    setCount(prev => prev + 1)
+  }
+
+  const handleAddToCart = () => {
+    setIsModalOpen(true)
+  }
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
   return (
     <main>
-      <h2 hidden>DetailPage</h2>
+      <h2>DetailPage</h2>
+
       <div className={css.detailCon}>
         <div className={css.imgWrap}>
           <img src={`/public/img/${product.img}`} alt={product.title} />
-          {product.discount > 0 && <p className={css.discount}>{product.discount}%</p>}
+          {product.discount > 0 && <p className={css.discount}>{product.discount} %</p>}
         </div>
         <div className={css.infoWrap}>
           <p className={css.title}>{product.title}</p>
@@ -26,62 +68,19 @@ const DetailPage = () => {
           <p className={css.category}>{product.category}</p>
           <div className={css.btnWrap}>
             <div className={css.counterArea}>
-              <button>-</button>
-              <span>1</span>
-              <button>+</button>
+              <button onClick={decrease}>-</button>
+              <span>{count}</span>
+              <button onClick={increase}>+</button>
             </div>
-            <button className={css.addBtn}>ADD TO CART</button>
+            <button className={css.addBtn} onClick={handleAddToCart}>
+              장바구니 담기
+            </button>
           </div>
         </div>
       </div>
-
-      <div className={css.tabCon}>
-        <ul className={css.tabList}>
-          <li
-            className={activeTab === 'description' ? css.active : ''}
-            onClick={() => handleTabClick('description')}
-          >
-            Description
-          </li>
-          <li
-            className={activeTab === 'info' ? css.active : ''}
-            onClick={() => handleTabClick('info')}
-          >
-            Additional information
-          </li>
-          <li
-            className={activeTab === 'review' ? css.active : ''}
-            onClick={() => handleTabClick('review')}
-          >
-            Reviews(0)
-          </li>
-        </ul>
-        <div className={css.tabContent}>
-          {activeTab === 'description' && (
-            <div>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Accusantium nostrum vel
-              nulla aspernatur esse! Dicta, architecto beatae! Maiores veniam culpa omnis numquam,
-              recusandae, eius possimus perspiciatis eos libero repellat ullam!
-            </div>
-          )}
-          {activeTab === 'info' && <div>info</div>}
-          {activeTab === 'review' && <div>review</div>}
-        </div>
-      </div>
-
-      <Swiper
-        slidesPerView={4}
-        spaceBetween={15}
-        pagination={{ clickable: true }}
-        modules={[Pagination]}
-        className={css.detailSlider}
-      >
-        {relatedProducts.map(data => (
-          <SwiperSlide key={data.id}>
-            <ProductCard data={data} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <DetailTabInfo />
+      <SimilarProducts relatedProducts={relatedProducts} />
+      {isModalOpen && <Modal product={product} count={count} onClose={closeModal} />}
     </main>
   )
 }
