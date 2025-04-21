@@ -9,13 +9,6 @@ export default defineConfig({
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     alias: {
       '@': path.resolve('./src'),
-      '@components': path.resolve('./src/components'),
-      '@hooks': path.resolve('./src/hooks'),
-      '@pages': path.resolve('./src/pages'),
-      '@utils': path.resolve('./src/utils'),
-      '@assets': path.resolve('./src/assets'),
-      '@api': path.resolve('./src/api'),
-      '@store': path.resolve('./src/store'),
       // 필요한 다른 경로도 추가 가능
     },
   },

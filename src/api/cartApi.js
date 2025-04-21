@@ -34,3 +34,24 @@ export const addToCart = async cartItem => {
     console.log('err', err)
   }
 }
+
+export const updateCartItemCount = async (id, count) => {
+  try {
+    const cartItem = await axios.get(`/api/cart/${id}`)
+    console.log('cartItem', cartItem)
+    const updateItem = { ...cartItem.data, count }
+    const res = await axios.put(`/api/cart/${id}`, updateItem)
+    return res.data
+  } catch (err) {
+    console.log('err', err)
+  }
+}
+
+export const removeFromCart = async id => {
+  try {
+    const res = await axios.delete(`/api/cart/${id}`)
+    return res.data
+  } catch (err) {
+    console.log('err', err)
+  }
+}
