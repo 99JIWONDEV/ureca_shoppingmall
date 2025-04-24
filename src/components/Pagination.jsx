@@ -7,6 +7,7 @@ const Pagination = ({ initProductsData }) => {
   const navigate = useNavigate()
 
   const { first, last, prev, next, pages } = initProductsData.products
+  console.log('initProductsData:', initProductsData)
   const currentPage = Number(searchParams.get('_page') || '1')
 
   const handlePageChange = page => {

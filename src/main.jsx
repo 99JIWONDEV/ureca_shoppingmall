@@ -1,5 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { RouterProvider } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import router from './router'
+import store from './store/store'
 
 // Bootstrap CSS 가져오기
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -13,13 +17,16 @@ import 'bootstrap/dist/css/bootstrap-utilities.min.css'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-
-import { RouterProvider } from 'react-router-dom'
-import router from './router'
 import './index.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider
+        router={router}
+        fallbackElement={<div>로딩 중...</div>}
+        hydrateFallbackElement={<div>로딩중...</div>}
+      />
+    </Provider>
   </StrictMode>
 )
